@@ -43,6 +43,12 @@ function dateTime() {
 dateTime();
 // setInterval(dateTime, 1000)
 
+document.querySelector("#mobile-todo-feature").addEventListener("click", e => {
+
+})
+
+
+
 
 // form opening and closing
 
@@ -66,16 +72,23 @@ document.querySelector("#add-btn-fixed-nav").addEventListener("click", () => {
 document.querySelector(".timeline-add-btn").addEventListener("click", () => {
     if (window.innerWidth <= 1250) {
         dailyPlannerForm2.classList.toggle("flex");
-        dailyPlannerForm2.elements[0].focus();
+        
     } else {
         dailyPlannerForm1.elements[0].focus();
     }
 
 })
+document.querySelector("#mobile-task-add").addEventListener("click", e => {
+     formDiv1.classList.toggle("flex");
+       
+})
 // closing
 document.querySelector(".bg").addEventListener("click", () => {
     formDiv1.classList.remove("flex");
     dashboardContent.classList.remove("blur");
+})
+document.querySelector(".bg-2").addEventListener("click", () => {
+    dailyPlannerForm2.classList.remove("flex");
 })
 // Form opening logic end 
 
@@ -223,17 +236,55 @@ function formInfo(elem) {
 
         form.reset();
     })
+    document.querySelector(".todo-form").addEventListener("submit", (e) => {
+         e.preventDefault();
+        let title = e.target[0].value.trim();
+        let priority = e.target[1].value;
+        let dueDate = e.target[2].value;
+
+        if (title === "") {
+            return;
+        }
+        let taskObj = {
+            id: generateId(),
+            title,
+            priority,
+            dueDate,
+            status: "active"
+        }
+
+        if (updateIndex == null) {
+            taskArr.unshift(taskObj);
+        } else {
+            taskObj.id = elem.id;
+            taskObj.status = elem.status;
+            taskArr[updateIndex] = taskObj;
+            updateIndex = null;
+
+        }
+        localStorage.setItem("tasks", JSON.stringify(taskArr));
+        fetchUi();
+
+        formDiv1.classList.remove("flex")
+        document.querySelector(".todo-form").reset();
+    })
+    
 }
 formInfo();
 function updatfunction(id) {
     let find = taskArr.find(elem => elem.id === id);
     updateIndex = taskArr.findIndex(elem => elem.id === id);
 
-    form.elements[0].value = find.title;
-    form.elements[2].value = find.priority;
-    form.elements[3].value = find.dueDate;
+    if(window.innerWidth >= 1250){
+        form.elements[0].value = find.title;
+        form.elements[2].value = find.priority;
+        form.elements[3].value = find.dueDate;
+        form.elements[0].focus();
+        console.log("update")
+    } else {
+        document.querySelector(".task-form").classList.add("flex");
+    }
     formInfo(find);
-    form.elements[0].focus();
 }
 function deletefunction(id) {
     console.log("Delete Function")
@@ -312,7 +363,14 @@ const todoLi = document.querySelector("#todo-li")
 const dailyPlannerLi = document.querySelector("#daily-planner-id")
 const pomodoroLi = document.querySelector("#pomodoro-timer-li")
 const dailyGoalLi = document.querySelector("#daily-goal-li")
-let sideNavLiArr = [dashboardLi, todoLi, dailyPlannerLi, pomodoroLi, dailyGoalLi];
+const todoMobileLi = document.querySelector("#mobile-menu-icon");
+const dailyPlannerMobile = document.querySelector("#mobile-planner-icon")
+const dashboardMobile = document.querySelector("#mobile-dashboard-icon")
+const goalMobile = document.querySelector("#mobile-goal-icon")
+const todoFeatrue = document.querySelector("#mobile-todo-feature")
+const dailyPlannerFeature = document.querySelector("#mobile-daily-planner-feature");
+const goalsFeature = document.querySelector("#mobile-goals-feature");
+let sideNavLiArr = [goalsFeature,dailyPlannerFeature,todoFeatrue,goalMobile,dashboardMobile,dailyPlannerMobile,todoMobileLi,dashboardLi, todoLi, dailyPlannerLi, pomodoroLi, dailyGoalLi];
 
 
 
@@ -327,20 +385,25 @@ function activeLi(row) {
     let contentSelector = {
         content: dashboardContent,
         todoContainer: document.querySelector(".todo-container"),
-        dailyPlaner: document.querySelector(".daily-planner")
+        dailyPlaner: document.querySelector(".daily-planner"),
+        contentMobile: dashboardContent,
+        todoContainerMobile: document.querySelector(".todo-container"),
+        dailyPlanerMobile: document.querySelector(".daily-planner"),
+
     }
 
     let currentValue = contentSelector[row.getAttribute("value")];
 
     currentValue.classList.toggle("flex")
+    fetchResize()
 }
 
 function daskboardChecker() {
     if (dashboardContent.classList.contains("flex")) {
-        document.querySelector(".fixed-nav-pc").classList.remove("flex");
+        document.querySelector(".fixed-nav-pc").style.display = "none";
         console.log("on")
     } else {
-        document.querySelector(".fixed-nav-pc").classList.toggle("flex");
+        document.querySelector(".fixed-nav-pc").style.display ="flex";
         console.log("off");
     }
 }
@@ -379,6 +442,7 @@ document.querySelector(".todo-feature").addEventListener("click", (e) => {
     fetchSection();
 
 })
+
 document.querySelector(".daily-feature").addEventListener("click", (e) => {
     document.querySelector(".daily-planner").classList.toggle("flex")
     dashboardContent.classList.remove("flex")
@@ -552,4 +616,17 @@ function isEventTimeGreater(eventTime) {
     return eventTotalMinutes > currentTotalMinutes;
 }
 
-
+function fetchResize() {
+window.addEventListener("resize", () => {
+    if(window.innerWidth <= 800){
+        console.log("resize fn")
+        document.querySelector(".fixed-nav-pc").style.display = "none"
+    } else {
+        console.log("resize flex")
+        document.querySelector(".fixed-nav-pc").style.display = "flex"
+    }
+  
+    
+});
+}
+fetchResize();
