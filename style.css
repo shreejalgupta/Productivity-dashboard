@@ -870,6 +870,9 @@ gap: 1em;
   gap: 0.5em;
   color: lavender;
   transition: all 0.3s ease;
+  word-wrap: break-word;
+  white-space: normal;
+  font-weight: 300;
 }
 .timeline-des:hover{
   transform: translateY(-5px);
@@ -991,6 +994,7 @@ gap: 1em;
   margin-top: 1em;
   font-size: 1em;
   font-family: var(--label-ff);
+  color: white;
 }
 #time-form-input{
   width: 100px;
@@ -1066,7 +1070,9 @@ gap: 1em;
 }
 
 @media (max-width: 800px) {
-  
+  .fixed-nav-pc{
+    display: none !important;
+  }
   .bottom-timeline-div{
     font-size: 1em;
   }
@@ -1119,9 +1125,51 @@ gap: 1em;
   border-radius: 2rem;
   border: 1px solid #292B2C;
 }
+.add-timeline-btn-mobile{
+  position: absolute;
+   color: #131518;
+  background-color: #FFB780;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  right: 30px;
+  top: 30px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 3em;
+  font-weight: 700;
+}
+.add-timeline-btn-mobile:hover{
+   box-shadow: 0 5px 10px rgba(255, 120, 180, 0.4),
+              0 0 10px rgba(120, 180, 255, 0.5);
 
+}
+.timeline-des-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.timeline-des-top h3{
+  max-width: 25ch;
+  font-size: 1.4em;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.delete-timeline{
+  font-size: 1.7em;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.delete-timeline:hover{
+   box-shadow: 0 5px 10px rgba(255, 120, 180, 0.4),
+              0 0 10px rgba(120, 180, 255, 0.5);
 
-
+}
 
 
 

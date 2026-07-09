@@ -395,15 +395,15 @@ function activeLi(row) {
     let currentValue = contentSelector[row.getAttribute("value")];
 
     currentValue.classList.toggle("flex")
-    fetchResize()
+    
 }
 
 function daskboardChecker() {
     if (dashboardContent.classList.contains("flex")) {
-        document.querySelector(".fixed-nav-pc").style.display = "none";
+        document.querySelector(".fixed-nav-pc").classList.remove("flex");
         console.log("on")
     } else {
-        document.querySelector(".fixed-nav-pc").style.display ="flex";
+        document.querySelector(".fixed-nav-pc").classList.add("flex");
         console.log("off");
     }
 }
@@ -507,6 +507,7 @@ function dailyUiCreater(elem) {
                         <div class="timeline-des">
                             <div class="timeline-des-top">
                                 <h3>${elem.title}</h3>
+                                <i onclick='deleteTimeline("${elem.id}")' class="delete-timeline ri-close-circle-fill"></i>
                             </div>
                             <div class="timeline-des-bottom">
                                 <p>${elem.desc}</p>
@@ -577,6 +578,41 @@ function timelineformInfo(elem) {
         countertimeline();
         dailyPlannerForm1.reset();
     })
+    document.querySelector("#daily-planner-form-ind").addEventListener("submit", (e) => {
+        e.preventDefault();
+        let title = e.target[0].value.trim();
+        let time = e.target[1].value.trim();
+        let desc = e.target[2].value.trim();
+
+        console.log(time);
+        console.log(typeof time)
+        if (title === "" || time === "") {
+            return;
+        }
+        let timelinetaskObj = {
+            id: generateId(),
+            title,
+            time,
+            desc,
+            status: "timeline-active"
+        }
+
+        if (timelineUpdateIndex == null) {
+            timelineArr.push(timelinetaskObj);
+        } else {
+            timelinetaskObj.id = elem.id;
+            timelinetaskObj.status = elem.status;
+            timelineArr[timelineUpdateIndex] = timelinetaskObj;
+            timelineUpdateIndex = null;
+
+        }
+        localStorage.setItem("timeline", JSON.stringify(timelineArr));
+        fetchdailyUi();
+
+        countertimeline();
+        document.querySelector(".timeline-form-ind").classList.remove("flex")
+        dailyPlannerForm1.reset();
+    })
 }
 timelineformInfo();
 // function updatfunction(id){
@@ -589,14 +625,15 @@ timelineformInfo();
 //     formInfo(find);
 //     form.elements[0].focus();
 // }
-// function deletefunction(id){
-//     console.log("Delete Function")
-//     let findIndex = taskArr.findIndex(elem => elem.id === id);
-//     console.log(findIndex)
-//     taskArr.splice(findIndex, 1);
-//     localStorage.setItem("tasks", JSON.stringify(taskArr));
-//     fetchUi()
-// }
+function deleteTimeline(id){
+    console.log("Delete timeline")
+    let findIndex = timelineArr.findIndex(elem => elem.id === id);
+    console.log(findIndex)
+    timelineArr.splice(findIndex, 1);
+    localStorage.setItem("timeline", JSON.stringify(timelineArr));
+    countertimeline();
+    fetchdailyUi();
+}
 
 
 function isEventTimeGreater(eventTime) {
@@ -616,17 +653,3 @@ function isEventTimeGreater(eventTime) {
     return eventTotalMinutes > currentTotalMinutes;
 }
 
-function fetchResize() {
-window.addEventListener("resize", () => {
-    if(window.innerWidth <= 800){
-        console.log("resize fn")
-        document.querySelector(".fixed-nav-pc").style.display = "none"
-    } else {
-        console.log("resize flex")
-        document.querySelector(".fixed-nav-pc").style.display = "flex"
-    }
-  
-    
-});
-}
-fetchResize();
