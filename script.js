@@ -1,0 +1,555 @@
+const timeElem = document.querySelector("#time-dashboard");
+const weekName = document.querySelector("#weekName");
+const form = document.querySelector(".form-common");
+const dailyPlannerForm1 = document.querySelector("#daily-planner-form");
+const dailyPlannerHeading = document.querySelector(".daily-planner-heading");
+const dailyPlannerForm2 = document.querySelector(".timeline-form-ind")
+function dateTime() {
+    let now = new Date();
+    let hours = String(now.getHours()).padStart(2, "0");
+    let minutes = String(now.getMinutes()).padStart(2, "0");
+    let seconds = String(now.getSeconds()).padStart(2, "0");
+
+    let weekDayName = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ];
+    let monthName = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ];
+
+    let currnetWeekDay = weekDayName[now.getDay()];
+    let currentMonth = monthName[now.getMonth()];
+    timeElem.innerHTML = `${hours}:${minutes}`;
+    weekName.innerHTML = `${currnetWeekDay} | ${monthName[now.getMonth()]} ${String(now.getDate()).padStart(2, "0")}`
+    dailyPlannerHeading.innerHTML = `${currnetWeekDay}, ${currentMonth} ${String(now.getDate()).padStart(2, "0")}`
+}
+dateTime();
+// setInterval(dateTime, 1000)
+
+
+// form opening and closing
+
+const formDiv1 = document.querySelector(".task-form");
+const dashboardContent = document.querySelector(".content");
+
+// oppening
+document.querySelector("#toggle-form-1").addEventListener("click", () => {
+    formDiv1.classList.toggle("flex");
+    dashboardContent.classList.toggle("blur");
+})
+document.querySelector("#add-btn-fixed-nav").addEventListener("click", () => {
+    if (window.innerWidth <= 1250) {
+        formDiv1.classList.toggle("flex");
+        formDiv1.elements[0].focus();
+    } else {
+        form.elements[0].focus();
+    }
+
+})
+document.querySelector(".timeline-add-btn").addEventListener("click", () => {
+    if (window.innerWidth <= 1250) {
+        dailyPlannerForm2.classList.toggle("flex");
+        dailyPlannerForm2.elements[0].focus();
+    } else {
+        dailyPlannerForm1.elements[0].focus();
+    }
+
+})
+// closing
+document.querySelector(".bg").addEventListener("click", () => {
+    formDiv1.classList.remove("flex");
+    dashboardContent.classList.remove("blur");
+})
+// Form opening logic end 
+
+// timeer code
+
+const timerBtn = document.querySelector("#timer-btn");
+const tizmerShow = document.querySelector("#timer-show");
+const playPuseIcon = document.querySelector("#play-icon");
+let timer = null; // keep reference globally
+let workTime = 25 * 60;
+let timeLeft = workTime;
+
+function pomomodoroTimer(sec) {
+    let minutes = Math.floor(sec / 60);
+    let secs = sec % 60;
+    return String(minutes).padStart(2, '0') + ":" + String(secs).padStart(2, '0');
+}
+
+timerBtn.addEventListener("click", () => {
+    if (playPuseIcon.classList.contains("ri-play-large-fill")) {
+        // Start Session
+        playPuseIcon.classList.remove("ri-play-large-fill");
+        playPuseIcon.classList.add("ri-close-large-line");
+        document.querySelector("#timer-btn-text").innerHTML = "Stop Session";
+
+        timeLeft = workTime;
+        tizmerShow.innerHTML = pomomodoroTimer(timeLeft);
+
+        timer = setInterval(() => {
+            timeLeft--;
+            tizmerShow.innerHTML = pomomodoroTimer(timeLeft);
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                timer = null;
+                tizmerShow.innerHTML = "00:00";
+                alert("⏰ Session Complete!");
+            }
+        }, 1000);
+
+    } else {
+        // Force Stop Session
+        clearInterval(timer);
+        timer = null;
+        timeLeft = workTime; // reset back to 25 min
+        tizmerShow.innerHTML = pomomodoroTimer(timeLeft);
+
+        playPuseIcon.classList.add("ri-play-large-fill");
+        playPuseIcon.classList.remove("ri-close-large-line");
+        document.querySelector("#timer-btn-text").innerHTML = "Start Session";
+    }
+});
+
+
+// Id Generator
+function generateId(prefix = "id") {
+    const uniquePart = Math.random().toString(36).substr(2, 9);
+    const timePart = Date.now().toString(36);
+    return `${prefix}-${timePart}-${uniquePart}`;
+}
+
+// add New Task Logic
+let taskArr = JSON.parse(localStorage.getItem("tasks")) || [];
+
+const taskContainer = document.querySelector(".bottom-todo-right");
+const tasks = document.querySelectorAll(".task");
+
+function uiCreater(elem) {
+    let div = document.createElement("div");
+    div.classList.add("task", `${elem.priority}`, `${elem.status}`)
+    div.setAttribute("id", `${elem.id}`)
+    div.innerHTML += `
+    <div class="task-right">
+    <div class="checkbox-div">
+    <label class="checkbox">
+                                    <input onchange="donefunction('${elem.id}')" type="checkbox" ${elem.status == 'completed' ? 'checked' : ''}>
+                                    <span class="check high"></span>
+                                </label>
+                                </div>
+                                <div class="task-content-title">
+                                <h2 >${elem.title}</h2>
+                                <div class="extra-info">
+                                <div class="date-end">
+${elem.dueDate !== ""
+            ? `<i class="${elem.status === 'completed' ? 'ri-check-double-line' : 'ri-calendar-2-line'}"></i>`
+            : ""}
+                                
+                                        <p>${elem.dueDate}</p>
+                                    </div>
+                                    <p class="priority-label">
+                                        ${elem.priority}
+                                        </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hover-edit-delete">
+                        <button onclick="updatfunction('${elem.id}')" class="commont-container"><i class="ri-pencil-line"></i></button>
+                        <button onclick="deletefunction('${elem.id}')" class="commont-container"><i class="ri-delete-bin-6-line"></i></button>
+                        </div>
+                        `
+    taskContainer.appendChild(div);
+}
+
+function fetchUi(s) {
+    taskContainer.innerHTML = "";
+    taskArr.forEach(elem => {
+
+        uiCreater(elem);
+
+
+    })
+}
+fetchUi();
+
+let updateIndex = null;
+function formInfo(elem) {
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let title = e.target[0].value.trim();
+        let priority = e.target[1].value;
+        let dueDate = e.target[2].value;
+
+        if (title === "") {
+            return;
+        }
+        let taskObj = {
+            id: generateId(),
+            title,
+            priority,
+            dueDate,
+            status: "active"
+        }
+
+        if (updateIndex == null) {
+            taskArr.push(taskObj);
+        } else {
+            taskObj.id = elem.id;
+            taskObj.status = elem.status;
+            taskArr[updateIndex] = taskObj;
+            updateIndex = null;
+
+        }
+        localStorage.setItem("tasks", JSON.stringify(taskArr));
+        fetchUi();
+
+        form.reset();
+    })
+}
+formInfo();
+function updatfunction(id) {
+    let find = taskArr.find(elem => elem.id === id);
+    updateIndex = taskArr.findIndex(elem => elem.id === id);
+
+    form.elements[0].value = find.title;
+    form.elements[2].value = find.priority;
+    form.elements[3].value = find.dueDate;
+    formInfo(find);
+    form.elements[0].focus();
+}
+function deletefunction(id) {
+    console.log("Delete Function")
+    let findIndex = taskArr.findIndex(elem => elem.id === id);
+    console.log(findIndex)
+    taskArr.splice(findIndex, 1);
+    localStorage.setItem("tasks", JSON.stringify(taskArr));
+    fetchUi()
+}
+function donefunction(id) {
+    let find = taskArr.find(elem => elem.id === id);
+    let findIndex = taskArr.findIndex(elem => elem.id === id);
+    if (find.status === "active") {
+        find.status = "completed";
+    } else {
+        find.status = "active";
+    }
+    taskArr[findIndex] = find;
+    localStorage.setItem("tasks", JSON.stringify(taskArr));
+    fetchUi();
+}
+
+// Active Feature 
+let todoFeatureActive = document.querySelectorAll(".top-right-feature");
+
+function activeStateIndex(e) {
+    e.classList.toggle("active-feature");
+    let selectedText = e.innerText.toLowerCase();
+    console.log(selectedText)
+    let filterIs
+    if (selectedText === "all task") {
+        fetchUi();
+    } else {
+        filterIs = taskArr.filter(elem => elem.status === selectedText)
+        taskContainer.innerHTML = "";
+        console.log(filterIs)
+        filterIs.forEach(item => {
+            uiCreater(item);
+        })
+    }
+}
+
+todoFeatureActive.forEach(p => {
+    p.addEventListener("click", (e) => {
+        todoFeatureActive.forEach(elem => {
+            elem.classList.remove("active-feature")
+        })
+        activeStateIndex(p);
+    })
+    p.classList.remove("active-feature");
+})
+
+// filter logic
+const filterSelect = document.getElementById("filter-select");
+
+filterSelect.addEventListener("change", () => {
+    const selectedValue = filterSelect.value;
+
+    let filterIs
+    if (selectedValue === "all") {
+        fetchUi();
+    } else {
+        filterIs = taskArr.filter(elem => elem.priority === selectedValue)
+        taskContainer.innerHTML = "";
+        console.log(filterIs)
+        filterIs.forEach(item => {
+            uiCreater(item);
+        })
+    }
+});
+
+// side nav logic
+
+const dashboardLi = document.querySelector("#dashboard-li")
+const todoLi = document.querySelector("#todo-li")
+const dailyPlannerLi = document.querySelector("#daily-planner-id")
+const pomodoroLi = document.querySelector("#pomodoro-timer-li")
+const dailyGoalLi = document.querySelector("#daily-goal-li")
+let sideNavLiArr = [dashboardLi, todoLi, dailyPlannerLi, pomodoroLi, dailyGoalLi];
+
+
+
+let liOpen = JSON.parse(localStorage.getItem("li-check")) || "todo-li";
+activeLi(sideNavLiArr.find(e => e.id === liOpen))
+
+function activeLi(row) {
+    console.log("a", row)
+    sideNavLiArr.forEach(e => e.classList.remove("active-nav-list"))
+    row.classList.add("active-nav-list")
+    localStorage.setItem("li-check", JSON.stringify(row.id));
+    let contentSelector = {
+        content: dashboardContent,
+        todoContainer: document.querySelector(".todo-container"),
+        dailyPlaner: document.querySelector(".daily-planner")
+    }
+
+    let currentValue = contentSelector[row.getAttribute("value")];
+
+    currentValue.classList.toggle("flex")
+}
+
+function daskboardChecker() {
+    if (dashboardContent.classList.contains("flex")) {
+        document.querySelector(".fixed-nav-pc").classList.remove("flex");
+        console.log("on")
+    } else {
+        document.querySelector(".fixed-nav-pc").classList.toggle("flex");
+        console.log("off");
+    }
+}
+daskboardChecker();
+
+function fetchLi(row) {
+    row.addEventListener("click", (e) => {
+        console.log(e)
+        sideNavLiArr.forEach(e => {
+            e.classList.remove("flex")
+            console.log("e wala", e)
+
+        })
+        activeLi(row);
+        daskboardChecker();
+        window.location.reload();
+    })
+
+}
+function fetchSection() {
+    sideNavLiArr.forEach(e => {
+        fetchLi(e);
+    })
+}
+fetchSection();
+// dashboard
+
+document.querySelector(".todo-feature").addEventListener("click", (e) => {
+    document.querySelector(".todo-container").classList.toggle("flex")
+    dashboardContent.classList.remove("flex")
+    daskboardChecker();
+
+
+    todoLi.classList.add("active-nav-list")
+    dashboardLi.classList.remove("active-nav-list")
+    fetchSection();
+
+})
+document.querySelector(".daily-feature").addEventListener("click", (e) => {
+    document.querySelector(".daily-planner").classList.toggle("flex")
+    dashboardContent.classList.remove("flex")
+    daskboardChecker();
+
+
+    dailyPlannerLi.classList.add("active-nav-list")
+    dashboardLi.classList.remove("active-nav-list")
+    fetchSection();
+
+})
+
+
+
+// Daily planner 
+
+let timelineArr = JSON.parse(localStorage.getItem("timeline")) || [];
+
+
+const dailyPlannerFormBtn = document.querySelector("#daily-planner-form-btn");
+const timelinContainer = document.querySelector(".timeline-box-bottom");
+const timeLineCounter = document.querySelector(".counter-timeline")
+
+function countertimeline(){
+    let count = 0;
+    
+    timelineArr.forEach(e => {
+        if(e.status === 'timelineActive'){
+            count++;
+        }
+    })
+    
+    timeLineCounter.innerHTML = count;
+    
+}
+countertimeline();
+
+
+function dailyUiCreater(elem) {
+   
+    let div = document.createElement("div");
+    if (isEventTimeGreater(elem.time)) {
+        div.classList.add("timeline-content", "timeline-active");
+        let index = timelineArr.findIndex(e => e.id === elem.id)
+
+        timelineArr[index].status = "timelineActive";
+        localStorage.setItem("timeline", JSON.stringify(timelineArr));
+    } else {
+        div.classList.add("timeline-content", "timeline-deactive");
+        let index = timelineArr.findIndex(e => e.id === elem.id)
+
+        timelineArr[index].status = "timelineDeactive";
+        localStorage.setItem("timeline", JSON.stringify(timelineArr));
+    }
+
+    div.setAttribute("id", `${elem.id}`)
+    div.innerHTML += `
+    <div class="line-ribbont"></div>
+     <div class="timeline-timer">
+                            <p>${elem.time}</p>
+                        </div>
+                        <div class="timeline-des">
+                            <div class="timeline-des-top">
+                                <h3>${elem.title}</h3>
+                            </div>
+                            <div class="timeline-des-bottom">
+                                <p>${elem.desc}</p>
+                            </div>
+                        `
+    timelinContainer.appendChild(div);
+    countertimeline();
+}
+
+function fetchdailyUi(s) {
+    timelinContainer.innerHTML = "";
+    timelineArr.sort((a, b) => {
+        let [ah, am] = a.time.split(":").map(Number);
+        let [bh, bm] = b.time.split(":").map(Number);
+
+        let aMinutes = ah * 60 + am;
+        let bMinutes = bh * 60 + bm;
+
+        return aMinutes - bMinutes;
+    });
+    console.log(timelineArr);
+
+    timelineArr.forEach(elem => {
+
+
+        dailyUiCreater(elem);
+        
+
+
+    })
+}
+fetchdailyUi();
+
+
+let timelineUpdateIndex = null;
+function timelineformInfo(elem) {
+    dailyPlannerForm1.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let title = e.target[0].value.trim();
+        let time = e.target[1].value.trim();
+        let desc = e.target[2].value.trim();
+
+        console.log(time);
+        console.log(typeof time)
+        if (title === "" || time === "") {
+            return;
+        }
+        let timelinetaskObj = {
+            id: generateId(),
+            title,
+            time,
+            desc,
+            status: "timeline-active"
+        }
+
+        if (timelineUpdateIndex == null) {
+            timelineArr.push(timelinetaskObj);
+        } else {
+            timelinetaskObj.id = elem.id;
+            timelinetaskObj.status = elem.status;
+            timelineArr[timelineUpdateIndex] = timelinetaskObj;
+            timelineUpdateIndex = null;
+
+        }
+        localStorage.setItem("timeline", JSON.stringify(timelineArr));
+        fetchdailyUi();
+
+        countertimeline();
+        dailyPlannerForm1.reset();
+    })
+}
+timelineformInfo();
+// function updatfunction(id){
+//     let find = taskArr.find(elem => elem.id === id);
+//     updateIndex = taskArr.findIndex(elem => elem.id === id);
+
+//     form.elements[0].value = find.title;
+//     form.elements[2].value = find.priority;
+//     form.elements[3].value = find.dueDate;
+//     formInfo(find);
+//     form.elements[0].focus();
+// }
+// function deletefunction(id){
+//     console.log("Delete Function")
+//     let findIndex = taskArr.findIndex(elem => elem.id === id);
+//     console.log(findIndex)
+//     taskArr.splice(findIndex, 1);
+//     localStorage.setItem("tasks", JSON.stringify(taskArr));
+//     fetchUi()
+// }
+
+
+function isEventTimeGreater(eventTime) {
+    // Current time
+    let now = new Date();
+    let currentHours = now.getHours();
+    let currentMinutes = now.getMinutes();
+
+    // Convert current time → minutes
+    let currentTotalMinutes = currentHours * 60 + currentMinutes;
+
+    // Convert event time "HH:MM" → minutes
+    let [eh, em] = eventTime.split(":").map(Number);
+    let eventTotalMinutes = eh * 60 + em;
+
+    // Compare
+    return eventTotalMinutes > currentTotalMinutes;
+}
+
+

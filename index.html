@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- bg img  -->
+    <img id="bg-img"
+        src="https://images.unsplash.com/photo-1544604860-206456f08229?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt="" />
+
+    <!-- main content  -->
+    <div class="content ">
+        <div class="widget-date-time-wether float-slow">
+            <div class="date-time-div">
+                <h1 id="time-dashboard" class="font-glow">09:35</h1>
+
+                <h3 id="weekName" class="font-glow">Saturday | June 29</h3>
+
+
+            </div>
+            <div class="wether-div bento-anime">
+                <div class="top">
+                    <div class="wether">
+                        <i class="wether-logo">⛅</i>
+                        <p class="description">
+                            Partially Cloudy
+                        </p>
+                    </div>
+                    <div class="temp">
+                        <h1 class="temprature">0&#176</h1>
+                        <p class="city-name">City Name</p>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div class="wind">
+                        <i class="wind-logo">💨</i>
+                        <p class="wind-description">
+                            Wind:10km/h
+                        </p>
+                    </div>
+                    <div class="humidity">
+                        <p class="humidity-logo">
+                            💧
+                        </p>
+                        <p>humidity: 60%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="features">
+            <!-- todo section  -->
+            <div value="todoContainer" class="todo-feature common-dashboard-div bento-anime bento-anime-hover pointer ">
+                <div class="top">
+                    <div class="icon-1 bento-anime">
+                        <i class="ri-list-unordered"></i>
+                    </div>
+                    <div class="icon-2">
+                        <i id="toggle-form-1" class="ri-add-large-line"></i>
+                    </div>
+
+                </div>
+                <div class="center">
+                    <h2>ToDo List</h2>
+                    <p>Mange your daily tasksand focus on what matters.</p>
+                </div>
+                <div class="bottom">
+                    <p>8 Taks left</p>
+                </div>
+            </div>
+            <!-- daily planner -->
+            <div class="daily-feature common-dashboard-div bento-anime bento-anime-hover pointer">
+                <div class="top">
+                    <div class="icon-1 bento-anime">
+                        <i class="ri-calendar-line"></i>
+                    </div>
+                    <div class="icon-2">
+                        <i class="ri-arrow-right-up-line"></i>
+                    </div>
+                </div>
+                <div class="center">
+                    <h2>Daily Planner</h2>
+                    <p>Your schedule for Jul 06. Next:Product Review</p>
+                </div>
+                <div class="bottom">
+                    <p>4 more</p>
+                </div>
+            </div>
+            <!-- Pomodoro Timer -->
+            <div class="pomodoro common-dashboard-div bento-anime pointer bento-anime-hover">
+                <div class="top">
+                    <div class="icon-1 bento-anime">
+                        <i class="ri-timer-line"></i>
+                    </div>
+                    <div class="icon-2">
+                        <p class="bento-anime orange ">FOCUS</p>
+                    </div>
+                </div>
+                <div class="center">
+                    <h2>Pomodoro Timer</h2>
+                    <div class="timer">
+                        <h1 id="timer-show">25:00</h1>
+                        <p>/25:00</p>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <button id="timer-btn" class="bento-anime bento-anime-hover"><i id="play-icon"
+                            class="ri-play-large-fill"></i> <span id="timer-btn-text">Start Session</span></button>
+                </div>
+            </div>
+            <!-- Daily Goals -->
+            <div class="goals common-dashboard-div bento-anime pointer bento-anime-hover">
+                <div class="top">
+                    <div class="icon-1 bento-anime">
+                        <i class="ri-calendar-line"></i>
+                    </div>
+                    <div class="icon-2">
+
+                    </div>
+                </div>
+                <div class="center">
+                    <h2>Daily Goals</h2>
+                    <p>Consistency is key. 4/5 goals completed today.</p>
+                </div>
+                <div class="bottom">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="features-mobile">
+            <div class="todo-feature common-dashboard-div bento-anime bento-anime-hover pointer ">
+                <div class="top-mobile">
+                    <div class="icon-1 bento-anime">
+                        <i class="ri-list-unordered"></i>
+                    </div>
+
+
+                    <h2>ToDo List</h2>
+                </div>
+
+                <div class="bottom">
+                    <p>12 items left</p>
+                </div>
+            </div>
+            <!-- daily planner -->
+            <div class="daily-feature common-dashboard-div bento-anime bento-anime-hover pointer">
+                <div class="top-mobile">
+                    <div class="icon-1 bento-anime">
+                        <i class="ri-calendar-line"></i>
+                    </div>
+                    <h2>Daily Planner</h2>
+
+                </div>
+
+                <div class="bottom">
+                    <p>2 more</p>
+                </div>
+            </div>
+            <!-- Pomodoro Timer -->
+            <div class="pomodoro common-dashboard-div bento-anime pointer bento-anime-hover">
+                <div class="top-mobile">
+                    <div class="icon-1 bento-anime">
+                        <i class="ri-timer-line"></i>
+                    </div>
+                    <h2>Pomodoro Timer</h2>
+
+                </div>
+
+                <div class="bottom">
+                    <p>Ready to Focus</p>
+                </div>
+            </div>
+            <!-- Daily Goals -->
+            <div class="goals common-dashboard-div bento-anime pointer bento-anime-hover">
+                <div class="top-mobile">
+                    <div class="icon-1 bento-anime">
+                        <i class="ri-calendar-line"></i>
+                    </div>
+
+                    <h2>Daily Goals</h2>
+                </div>
+
+                <div class="bottom">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile-nav-bottom bento-anime">
+        <div class="icons-mobile-nav bento-anime-hover  dark-pink-text jetbrain-ff">
+            <i class="ri-list-check"></i>
+            <p>Todo List</p>
+        </div>
+        <div class="icons-mobile-nav bento-anime-hover  dark-pink-text jetbrain-ff">
+            <i class="ri-calendar-line"></i>
+            <p>Planner</p>
+        </div>
+        <div class="icons-mobile-nav bento-anime-hover  dark-pink-text jetbrain-ff">
+            <i class="ri-timer-line"></i>
+            <p>Focus</p>
+        </div>
+        <div class="icons-mobile-nav bento-anime-hover  dark-pink-text jetbrain-ff">
+            <i class="ri-focus-2-line"></i>
+            <p>Goals</p>
+        </div>
+        <div class="icons-mobile-nav bento-anime-hover  dark-pink-text jetbrain-ff">
+            <i class="ri-add-line"></i>
+            <p>Add Task</p>
+        </div>
+    </div>
+    <!-- main content end  -->
+
+    <div class="task-form">
+        <div class="bg"></div>
+        <form action="" class="todo-form bento-anime">
+            <div class="top-todo-form">
+                <i class="ri-checkbox-circle-line"></i>
+                <h1>New Task</h1>
+            </div>
+            <div class="center-todo">
+                <label class="label" for="">Taks Description</label>
+                <input type="text" placeholder="What need to be done...">
+            </div>
+            <div class="center-mid">
+                <div class="priority">
+                    <label class="label" for="">Priority</label>
+                    <select name="" class="priority-box" id="">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+                <div class="due-date">
+                    <label class="label" for="">Due Date</label>
+                    <input type="date">
+                </div>
+            </div>
+            <button class="todo-btn pink-bg dark-pink-bg"><span><i class="ri-triangular-flag-fill"></i></span> Plan
+                Milestone</button>
+        </form>
+    </div>
+
+    <div class="fixed-nav-pc flex">
+        <div class="fixed-nav-profile">
+            <div class="user-logo">
+                <i class="ri-user-line"></i>
+            </div>
+            <div class="user-text">
+                <h2>Do what's Matter</h2>
+            </div>
+        </div>
+        <div class="fixed-nav-items">
+            <ul class="fixed-nav-ul">
+                <li id="dashboard-li" value="content" class="fixed-nav-btn"><i class="ri-dashboard-line"></i> Dashboard
+                </li>
+                <li id="todo-li" value="todoContainer" class="fixed-nav-btn active-nav-list"><i
+                        class="ri-list-check"></i> Todo List</li>
+                <li id="daily-planner-id" value="dailyPlaner" class="fixed-nav-btn"><i class="ri-calendar-line"></i>
+                    Daily Planner</li>
+                <li id="pomodoro-timer-li" value="pomodoro" class="fixed-nav-btn"><i class="ri-timer-line"></i> Pomodoro
+                    Timer</li>
+                <li id="daily-goal-li" value="dailyGoal" class="fixed-nav-btn"><i class="ri-focus-2-line"></i> Daily
+                    Golas</li>
+            </ul>
+        </div>
+        <div class="add-task-btn-fixed-nav">
+            <button id="add-btn-fixed-nav" class="todo-btn todo-form-btn-section pink-bg dark-pink-bg"><span><i
+                        class="ri-add-large-line"></i></span>
+                Add Your Task</button>
+                <button class="timeline-add-btn"><i class="ri-flag-line"></i> Add to Timeline</button>
+        </div>
+    </div>
+
+    <div class="todo-container">
+        <div class="top-todo-header">
+            <h1>Task Peak </h1>
+            <p>Organize your task ascent, one milestone at a time</p>
+        </div>
+        <div class="bottom-todo">
+            <div class=" todo-task-form">
+                <!-- <div class="bg"></div> -->
+                <form action="" class="form-todo-section form-common bento-anime">
+                    <div class="top-todo-form">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <h1>New Task</h1>
+                    </div>
+                    <div class="center-todo">
+                        <label class="label" for="">Taks Description</label>
+                        <input type="text" placeholder="What need to be done...">
+                    </div>
+                    <div class="todo-center-mid-form center-mid">
+                        <div class="priority">
+                            <label class="label" for="">Priority</label>
+                            <select name="" class="priority-box" id="">
+                                <option value="low">Low</option>
+
+                                <option value="high">High</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                        <div class="due-date">
+                            <label class="label" for="">Due Date</label>
+                            <input type="date">
+                        </div>
+                    </div>
+                    <button class="todo-btn todo-form-btn-section pink-bg dark-pink-bg"><span><i
+                                class="ri-triangular-flag-fill"></i></span>
+                        Plan Milestone</button>
+                </form>
+            </div>
+            <div class="right-todo-bottom">
+                <div class="top-right-todo">
+                    <div class="top-right-todo-right">
+                        <p class="top-right-feature active-feature">All Task</p>
+                        <p class="top-right-feature">Active</p>
+                        <p class="top-right-feature">Completed</p>
+                    </div>
+                    <div class="filter-icon">
+
+                        <i class="ri-filter-3-line"></i>
+                        </span>
+
+                        <select id="filter-select" class="filter-select">
+                            <option value="all">All</option>
+                            <option value="low">Low</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="bottom-todo-right">
+                    <!-- dynamic Tasks -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily Planner -->
+
+    <div class="daily-planner">
+        <div class="top-todo-header daily-planner-top-header">
+            <h1>Today's Ascent </h1>
+            <p><span class="daily-planner-heading">Wedensday, October 25</span> - Aim for the peak.</p>
+        </div>
+        <div class="bottom-timeline-div">
+            <div class="timeline-box">
+                <div class="timeline-box-top">
+                    <h3>Vertical Timeline</h3>
+                    <p><span class="counter-timeline">4</span> Event Remaining</p>
+                </div>
+                <div class="timeline-box-bottom">
+                    <!-- Dynamic timeline -->
+
+                </div>
+            </div>
+            <div class="timeline-form">
+                <form action="" id="daily-planner-form" class="timeline-add-form">
+                    <div class="top-timeline">
+                        <div class="add-logo">
+                            <i class="ri-add-fill"></i>
+                        </div>
+                        <h2>Schedule Event</h2>
+                    </div>
+                    <div class="form-timeline-container">
+                        <div class="title-timer-form">
+                            <div class="left-title-timer-form">
+                                <label for="">Event Title</label>
+                                <input type="text" placeholder="e.g. Creative Review">
+                            </div>
+                            <div class="right-title-timer-form">
+                                <label for="">Start Time</label>
+                                <input id="time-form-input" type="time">
+                            </div>
+                        </div>
+                    </div>
+                    <label for="">Description</label>
+                    <textarea name="" id="" cols="30" rows="3" placeholder="Define the objectives for this session..."></textarea>
+                    <button id="daily-planner-form-btn" class="timeline-add-btn"><i class="ri-flag-line"></i> Add to Timeline</button>
+                </div>
+        </div>
+
+    </div>
+    </form>
+    </div>
+    </div>
+    </div>
+
+    <!-- Timeline form -->
+     <div class="timeline-form-ind">
+        <div class="bg bg-2"></div>
+        <form action="" id="daily-planner-form-ind" class="timeline-add-form">
+                    <div class="top-timeline">
+                        <div class="add-logo">
+                            <i class="ri-add-fill"></i>
+                        </div>
+                        <h2>Schedule Event</h2>
+                    </div>
+                    <div class="form-timeline-container">
+                        <div class="title-timer-form">
+                            <div class="left-title-timer-form">
+                                <label for="">Event Title</label>
+                                <input type="text" placeholder="e.g. Creative Review">
+                            </div>
+                            <div class="right-title-timer-form">
+                                <label for="">Start Time</label>
+                                <input id="time-form-input" type="time">
+                            </div>
+                        </div>
+                    </div>
+                    <label for="">Description</label>
+                    <textarea name="" id="" cols="30" rows="3" placeholder="Define the objectives for this session..."></textarea>
+                    <button id="daily-planner-form-btn" class="timeline-add-btn"><i class="ri-flag-line"></i> Add to Timeline</button>
+                </div>
+     </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
