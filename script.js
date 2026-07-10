@@ -9,7 +9,7 @@ const humidityInfo = document.querySelector(".humidity-info");
  
 let getWether = async (city) => {
     console.log(city);
-    let url = `http://api.weatherapi.com/v1/current.json?key=3a3443077e9542d88fc62508261007&q=${city}&aqi=yes`
+    let url = `https://api.weatherapi.com/v1/current.json?key=3a3443077e9542d88fc62508261007&q=${city}&aqi=yes`
     
     try {
         const res = await fetch(url);
