@@ -1,3 +1,72 @@
+let apiKey = `3a3443077e9542d88fc62508261007`;
+let apiGeo = `0bdc3e6bd44d4ee5b5a1e32ad9777fdd`;
+const wetherLogoDiv = document.querySelector("#wether-logo-id");
+const wetherCondition = document.querySelector("#wether-logo-condition");
+const temprature = document.querySelector("#temprature-id");
+const cityName = document.querySelector("#city-name-id");
+const wind = document.querySelector(".wind-desc");
+const humidityInfo = document.querySelector(".humidity-info");
+ 
+let getWether = async (city) => {
+    console.log(city);
+    let url = `http://api.weatherapi.com/v1/current.json?key=3a3443077e9542d88fc62508261007&q=${city}&aqi=yes`
+    
+    try {
+        const res = await fetch(url);
+        let data = await res.json();
+        console.log(data);
+
+        return showWether(data);
+    } catch (error) {
+        alert("404 error")
+    }
+
+}
+getWether("Allahabad");
+
+
+function showWether(data){
+    cityName.innerHTML = data.location.name;
+    wetherCondition.innerHTML = data.current.condition.text;
+    wind.innerHTML = data.current.wind_kph;
+    temprature.innerHTML = `${data.current.temp_c}&#176`
+    humidityInfo.innerHTML = data.current.humidity;
+    wetherLogoDiv.setAttribute("src", `${data.current.condition.icon}`)
+}
+
+
+// let  getLocationName = async (lat, long) =>{
+//     let query = `${lat},${long}`;
+//     let apiUrl = `ttps://api.opencagedata.com/geocode/v1/json?key=0bdc3e6bd44d4ee5b5a1e32ad9777fdd&q=${query}&pretty=1&no_annotations=1`;
+//     try {
+//         const res = await fetch(apiUrl);
+//         let data = await res.json();
+//         let cityIs = data.results[0].components.city;
+        
+        // getWether(cityIs);
+    // } catch (error) {
+        // alert("Location will not present in our server.")
+    // }
+// }
+
+// navigator.geolocation.getCurrentPosition(
+//     (postion) => {
+//         const {latitude, longitude} = postion.coords
+
+//         getLocationName( latitude, longitude);
+//     }, (error) =>{
+//       alert("Wether fetching will not work. Plase allow location")  
+//     }
+// )
+
+
+
+
+
+
+
+
+
 const timeElem = document.querySelector("#time-dashboard");
 const weekName = document.querySelector("#weekName");
 const form = document.querySelector(".form-common");
