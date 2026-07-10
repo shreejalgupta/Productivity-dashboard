@@ -21,7 +21,7 @@
         alt="" />
 
     <!-- main content  -->
-    <div class="content ">
+    <div class="content">
         <div class="widget-date-time-wether float-slow">
             <div class="date-time-div">
                 <h1 id="time-dashboard" class="font-glow">09:35</h1>
@@ -76,7 +76,7 @@
                     <p>Mange your daily tasksand focus on what matters.</p>
                 </div>
                 <div class="bottom">
-                    <p>8 Taks left</p>
+                    <p><span id="counter-task-dashboard">8</span> Taks left</p>
                 </div>
             </div>
             <!-- daily planner -->
@@ -91,10 +91,10 @@
                 </div>
                 <div class="center">
                     <h2>Daily Planner</h2>
-                    <p>Your schedule for Jul 06. Next:Product Review</p>
+                    <p>Plane Your Day to know Matter Thigs</p>
                 </div>
                 <div class="bottom">
-                    <p>4 more</p>
+                    <p id="planner-counter">4 more</p>
                 </div>
             </div>
             <!-- Pomodoro Timer -->
@@ -131,7 +131,7 @@
                 </div>
                 <div class="center">
                     <h2>Daily Goals</h2>
-                    <p>Consistency is key. 4/5 goals completed today.</p>
+                    <p>Consistency is key. Step up your Goals today.</p>
                 </div>
                 <div class="bottom">
 
@@ -183,7 +183,7 @@
                 </div>
             </div>
             <!-- Daily Goals -->
-            <div id="mobile-goals-feature" value="" class="goals common-dashboard-div bento-anime pointer bento-anime-hover">
+            <div id="mobile-goals-feature" value="dailyGoal" class="goals common-dashboard-div bento-anime pointer bento-anime-hover">
                 <div class="top-mobile">
                     <div class="icon-1 bento-anime">
                         <i class="ri-calendar-line"></i>
@@ -254,7 +254,7 @@
         </form>
     </div>
 
-    <div class="fixed-nav-pc flex">
+    <div  class="fixed-nav-pc flex">
         <div class="fixed-nav-profile">
             <div class="user-logo">
                 <i class="ri-user-line"></i>
@@ -431,6 +431,61 @@
                     <button id="daily-planner-form-btn" class="timeline-add-btn"><i class="ri-flag-line"></i> Add to Timeline</button>
                 </div>
      </div>
+
+
+     <!-- Goal Div -->
+
+     <div class="goal-div-wrapper">
+        <div class="goal-add-btn">
+            <i class="ri-add-fill"></i>
+            <p class="reveal-text">Add your Goal</p>
+        </div>
+        <div class="top-todo-header daily-planner-top-header">
+            <h1>Long-term Objectives</h1>
+            <p><span class="daily-planner-heading">Harness the serene discipline of the peak. Track your trajectory through the ethereal haze of the daily grind.</p>
+        </div>
+        <div class="bottom-goal-div">
+            <div class="goal-container float-slow">
+                <div class="goal-top">
+                    <h2>Deep Work Mastery</h2>
+                    <div class="goal-center">
+                        <p>Complet 100 pushups Sessions using the Pomodoro session</p>
+                    </div>
+                </div>
+                
+                    <div class="edit-delete-goal">
+                         <button  ><i class="ri-pencil-line"></i></button>
+                        <button  class="red"><i class="red ri-delete-bin-6-line"></i></button>
+                       
+                    </div>
+                    
+                
+            </div>
+        </div>      
+     </div>
+
+        <div class="goal-div-form-wrapper">     
+            <div class="bg bg4"></div>
+         <div id="goal-div-form">
+            <div class="top-goal-form">
+                <i class="ri-focus-2-line"></i>
+                <h1>Goal</h1>
+            </div>
+            <div class="center-goal-form">
+                <label for="">title</label>
+                <input id="goal-input-title" type="text" placeholder="Goal title">
+
+                <label for="">Description</label>
+                <textarea id="goal-input-des" name="" rows="3" cols="20"  placeholder="write text"></textarea>
+            </div>
+            <button id="goal-form-submit" type="submit">Add Goal</button>
+        </div>
+        </div>
+
+
+        <!-- Timer -->
+
+
     <script src="script.js"></script>
 </body>
 

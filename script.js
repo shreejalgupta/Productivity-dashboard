@@ -63,7 +63,7 @@ document.querySelector("#toggle-form-1").addEventListener("click", () => {
 document.querySelector("#add-btn-fixed-nav").addEventListener("click", () => {
     if (window.innerWidth <= 1250) {
         formDiv1.classList.toggle("flex");
-        formDiv1.elements[0].focus();
+        // formDiv1.elements[0].focus();
     } else {
         form.elements[0].focus();
     }
@@ -193,6 +193,15 @@ ${elem.dueDate !== ""
 }
 
 function fetchUi(s) {
+    let count = 0;
+    taskArr.forEach(elem => {
+        if(elem.status === "active"){
+            count++;
+        }
+    })
+
+    document.querySelector("#counter-task-dashboard").innerHTML = count;
+
     taskContainer.innerHTML = "";
     taskArr.forEach(elem => {
 
@@ -389,7 +398,8 @@ function activeLi(row) {
         contentMobile: dashboardContent,
         todoContainerMobile: document.querySelector(".todo-container"),
         dailyPlanerMobile: document.querySelector(".daily-planner"),
-
+        dailyGoal: document.querySelector(".goal-div-wrapper"),
+        dailyGoalMobile: document.querySelector(".goal-div-wrapper")
     }
 
     let currentValue = contentSelector[row.getAttribute("value")];
@@ -450,6 +460,18 @@ document.querySelector(".daily-feature").addEventListener("click", (e) => {
 
 
     dailyPlannerLi.classList.add("active-nav-list")
+    dashboardLi.classList.remove("active-nav-list")
+    fetchSection();
+
+})
+
+document.querySelector(".goals").addEventListener("click", (e) => {
+    document.querySelector(".goal-div-wrapper").classList.toggle("flex")
+    dashboardContent.classList.remove("flex")
+    daskboardChecker();
+
+
+    document.querySelector("#daily-goal-li").classList.add("active-nav-list")
     dashboardLi.classList.remove("active-nav-list")
     fetchSection();
 
@@ -518,6 +540,10 @@ function dailyUiCreater(elem) {
 }
 
 function fetchdailyUi(s) {
+    let count = 0;
+
+
+
     timelinContainer.innerHTML = "";
     timelineArr.sort((a, b) => {
         let [ah, am] = a.time.split(":").map(Number);
@@ -536,8 +562,16 @@ function fetchdailyUi(s) {
         dailyUiCreater(elem);
         
 
-
     })
+
+    
+    timelineArr.forEach(elem => {
+        if(elem.status === "timelineActive"){
+            count++;
+        }
+    })
+
+    document.querySelector("#planner-counter").innerHTML = `${count} more plans`;
 }
 fetchdailyUi();
 
@@ -634,6 +668,131 @@ function deleteTimeline(id){
     countertimeline();
     fetchdailyUi();
 }
+
+
+// Goal Section
+
+const goalToggleBtn = document.querySelector(".goal-add-btn");
+const goalForm = document.querySelector(".goal-div-form-wrapper");
+const goalCloser = document.querySelector(".bg4");
+
+goalToggleBtn.addEventListener("click", () => {
+    goalForm.classList.toggle("flex");
+})
+goalCloser.addEventListener("click", ()=> {
+    goalForm.classList.remove("flex");
+})
+
+let goalArr = JSON.parse(localStorage.getItem("goalArr")) || [];
+
+const goalFomBtn = document.querySelector("#goal-form-submit");
+const goalTitle = document.querySelector("#goal-input-title")
+const goalDes = document.querySelector("#goal-input-des")
+const goalContainer = document.querySelector(".bottom-goal-div");
+
+function goalUiCreater(elem) {
+    let div = document.createElement("div");
+    div.classList.add("goal-container", "float-slow")
+    div.setAttribute("id", `${elem.id}`)
+    div.innerHTML += `
+   <div class="goal-top">
+                    <h2>${elem.title}</h2>
+                    <div class="goal-center">
+                        <p>${elem.description}</p>
+                    </div>
+                </div>
+                
+                    <div class="edit-delete-goal">
+                         <button onclick="updationGoal('${elem.id}')" ><i class="ri-pencil-line"></i></button>
+                        <button onclick="deletionGoal('${elem.id}')"  class="red"><i class="red ri-delete-bin-6-line"></i></button>
+                       
+                    </div>
+                        `
+    goalContainer.appendChild(div);
+}
+
+function goalfetchUi(s) {
+    goalContainer.innerHTML = "";
+    goalArr.forEach(elem => {
+
+        goalUiCreater(elem);
+
+
+    })
+}
+goalfetchUi();
+
+
+let goalUpdateIndex = null
+function goalInfoForm(elem){
+goalFomBtn.addEventListener("click", e => {
+    e.preventDefault();
+    let title = goalTitle.value.trim();
+    let description = goalDes.value.trim(); 
+
+     if (title === "") {
+            return;
+        }
+        let taskObj = {
+            id: generateId(),
+            title,
+            description
+        }
+
+        if (goalUpdateIndex == null) {
+            goalArr.unshift(taskObj);
+        } else {
+            taskObj.id = elem.id;
+            taskArr[goalUpdateIndex] = taskObj;
+            goalUpdateIndex = null;
+        }
+        localStorage.setItem("goalArr", JSON.stringify(goalArr));
+        goalfetchUi();
+
+        goalTitle.value = "";
+        goalDes.value = "";
+        goalForm.classList.remove("flex")
+        
+})
+}
+goalInfoForm();
+function updationGoal(id) {
+    console.log(id)
+    let find = goalArr.find(elem => elem.id === id);
+    goalUpdateIndex = goalArr.findIndex(elem => elem.id === id);
+
+    goalForm.classList.add("flex")
+    
+        goalTitle.value = find.title;
+        goalDes.value = find.description;
+    
+    goalInfoForm(find);
+}
+function deletionGoal(id) {
+    console.log("Delete Function")
+    let findIndex = goalArr.findIndex(elem => elem.id === id);
+    console.log(findIndex)
+    goalArr.splice(findIndex, 1);
+    localStorage.setItem("goalArr", JSON.stringify(goalArr));
+    goalfetchUi()
+}
+document.querySelector(".goals").addEventListener("click", e => {
+    document.querySelector(".goal-div-wrapper").classList.add("flex")
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function isEventTimeGreater(eventTime) {
