@@ -97,6 +97,10 @@ document.querySelector(".bg-2").addEventListener("click", () => {
 const timerBtn = document.querySelector("#timer-btn");
 const tizmerShow = document.querySelector("#timer-show");
 const playPuseIcon = document.querySelector("#play-icon");
+const pomodoroPlay = document.querySelector("#pomodoro-div-play");
+const pomodoroReset = document.querySelector("#pomodoro-div-reset")
+const pomodroTimerShow = document.querySelector(".time-pomodoro");
+const pomodoroIcon = document.querySelector("#pomodoro-icon");
 let timer = null; // keep reference globally
 let workTime = 25 * 60;
 let timeLeft = workTime;
@@ -141,6 +145,103 @@ timerBtn.addEventListener("click", () => {
         document.querySelector("#timer-btn-text").innerHTML = "Start Session";
     }
 });
+
+pomodoroPlay.addEventListener("click", e => {
+    if (pomodoroIcon.classList.contains("ri-play-fill")) {
+        // PLAY → START SESSION
+        pomodoroIcon.classList.remove("ri-play-fill");
+        pomodoroIcon.classList.add("ri-pause-fill");
+
+        // Reset only when starting fresh
+        if (!timeLeft || timeLeft <= 0) {
+            timeLeft = workTime;
+        }
+        pomodroTimerShow.innerHTML = pomomodoroTimer(timeLeft);
+
+        timer = setInterval(() => {
+            timeLeft--;
+            pomodroTimerShow.innerHTML = pomomodoroTimer(timeLeft);
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                timer = null;
+                pomodroTimerShow.innerHTML = "00:00";
+                alert("⏰ Session Complete!");
+            }
+        }, 1000);
+    } else {
+        // ELSE → PAUSE / RESUME LOGIC
+        if (pomodoroIcon.classList.contains("ri-pause-fill")) {
+            // PAUSE
+            clearInterval(timer);
+            timer = null;
+            pomodoroIcon.classList.remove("ri-pause-fill");
+            pomodoroIcon.classList.add("ri-play-fill");
+        } else {
+            // RESUME (continue from current timeLeft)
+            pomodoroIcon.classList.remove("ri-play-fill");
+            pomodoroIcon.classList.add("ri-pause-fill");
+
+            timer = setInterval(() => {
+                timeLeft--;
+                pomodroTimerShow.innerHTML = pomomodoroTimer(timeLeft);
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    timer = null;
+                    pomodroTimerShow.innerHTML = "00:00";
+                    alert("⏰ Session Complete!");
+                }
+            }, 1000);
+        }
+    }
+});
+
+
+
+pomodoroReset.addEventListener("click", e => {
+     clearInterval(timer);
+        timer = null;
+        timeLeft = workTime; // reset back to 25 min
+        pomodroTimerShow.innerHTML = pomomodoroTimer(timeLeft);
+
+        pomodoroIcon.classList.add("ri-play-fill");
+        pomodoroIcon.classList.remove("ri-close-large-line");
+        
+
+})
+
+const pomodorClose2 = document.querySelector("#pomodoro-close-btn");
+const pomodorClose1 = document.querySelector(".bg5");
+const pomodoroTimerDiv = document.querySelector(".pomodoro-timer-div");
+const pomodorClick1 = document.querySelector("#pomodoro-content");
+const pomodorClick2 = document.querySelector("#pomodoro-timer-li");
+const pomodorClick3 = document.querySelector("#pomodoro-timer-feature");
+
+
+let clickOnPomodoro = [pomodorClick1, pomodorClick2, pomodorClick3]
+
+clickOnPomodoro.forEach(e => {
+    pomodoroTimerFn(e);
+})
+
+function pomodoroTimerFn(div){
+div.addEventListener("click", e => {
+    if(pomodoroTimerDiv.classList.contains("flex")){
+        pomodoroTimerDiv.classList.remove("flex");
+    } else {
+        pomodoroTimerDiv.classList.add("flex");
+    }
+})
+}
+
+pomodorClose1.addEventListener("click", e => {
+    pomodoroTimerDiv.classList.remove("flex");
+})
+pomodorClose2.addEventListener("click", e=> {
+    pomodoroTimerDiv.classList.remove("flex");
+})
+
 
 
 // Id Generator
@@ -379,7 +480,7 @@ const goalMobile = document.querySelector("#mobile-goal-icon")
 const todoFeatrue = document.querySelector("#mobile-todo-feature")
 const dailyPlannerFeature = document.querySelector("#mobile-daily-planner-feature");
 const goalsFeature = document.querySelector("#mobile-goals-feature");
-let sideNavLiArr = [goalsFeature,dailyPlannerFeature,todoFeatrue,goalMobile,dashboardMobile,dailyPlannerMobile,todoMobileLi,dashboardLi, todoLi, dailyPlannerLi, pomodoroLi, dailyGoalLi];
+let sideNavLiArr = [goalsFeature,dailyPlannerFeature,todoFeatrue,goalMobile,dashboardMobile,dailyPlannerMobile,todoMobileLi,dashboardLi, todoLi, dailyPlannerLi, dailyGoalLi];
 
 
 

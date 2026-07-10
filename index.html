@@ -98,7 +98,7 @@
                 </div>
             </div>
             <!-- Pomodoro Timer -->
-            <div class="pomodoro common-dashboard-div bento-anime pointer bento-anime-hover">
+            <div id="pomodoro-content" class="pomodoro common-dashboard-div bento-anime pointer bento-anime-hover">
                 <div class="top">
                     <div class="icon-1 bento-anime">
                         <i class="ri-timer-line"></i>
@@ -169,7 +169,7 @@
                 </div>
             </div>
             <!-- Pomodoro Timer -->
-            <div class="pomodoro common-dashboard-div bento-anime pointer bento-anime-hover">
+            <div id="pomodoro-timer-feature" class="pomodoro common-dashboard-div bento-anime pointer bento-anime-hover">
                 <div class="top-mobile">
                     <div class="icon-1 bento-anime">
                         <i class="ri-timer-line"></i>
@@ -484,7 +484,23 @@
 
 
         <!-- Timer -->
-
+        <div class="pomodoro-timer-div">
+            <div class="bg bg5" ></div>
+            <div class="pomodoro-content dark-shine-bg">
+                <div class="pomodoto-top-div">
+                    <div></div>
+                    <i id="pomodoro-close-btn" class="ri-close-fill"></i>
+                </div>
+                <div class="pomodoro-center">
+                    <h1 class="time-pomodoro same-class">25:00</h1>
+                    
+                </div>
+                <div class="pomodoro-div-btn">
+                    <button id="pomodoro-div-reset" class="reset-btn comon-pomodoro-class"><i class="ri-loop-right-fill"></i></button>
+                    <button id="pomodoro-div-play" class="puse-btn comon-pomodoro-class"><i id="pomodoro-icon" class="ri-play-fill"></i></button>
+                </div>
+            </div>
+        </div>
 
     <script src="script.js"></script>
 </body>
