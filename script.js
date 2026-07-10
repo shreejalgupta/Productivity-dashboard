@@ -22,7 +22,7 @@ let getWether = async (city) => {
     }
 
 }
-getWether("Allahabad");
+// getWether("Allahabad");
 
 
 function showWether(data){
@@ -35,29 +35,31 @@ function showWether(data){
 }
 
 
-// let  getLocationName = async (lat, long) =>{
-//     let query = `${lat},${long}`;
-//     let apiUrl = `ttps://api.opencagedata.com/geocode/v1/json?key=0bdc3e6bd44d4ee5b5a1e32ad9777fdd&q=${query}&pretty=1&no_annotations=1`;
-//     try {
-//         const res = await fetch(apiUrl);
-//         let data = await res.json();
-//         let cityIs = data.results[0].components.city;
-        
-        // getWether(cityIs);
-    // } catch (error) {
-        // alert("Location will not present in our server.")
-    // }
-// }
+let  getLocationName = async (lat, long) =>{
+    let query = `${lat},${long}`;
+    let apiUrl = `https://api.opencagedata.com/geocode/v1/json?key=0bdc3e6bd44d4ee5b5a1e32ad9777fdd&q=${query}&pretty=1&no_annotations=1`;
+    try {
+        const res = await fetch(apiUrl);
+        let data = await res.json();
+        let cityIs = data.results[0].components.city;
+        if(cityIs = "Prayagraj"){
+            cityIs = "Allahabad"
+        }
+        getWether(cityIs);
+    } catch (error) {
+        alert("Location will not present in our server.")
+    }
+}
 
-// navigator.geolocation.getCurrentPosition(
-//     (postion) => {
-//         const {latitude, longitude} = postion.coords
+navigator.geolocation.getCurrentPosition(
+    (postion) => {
+        const {latitude, longitude} = postion.coords
 
-//         getLocationName( latitude, longitude);
-//     }, (error) =>{
-//       alert("Wether fetching will not work. Plase allow location")  
-//     }
-// )
+        getLocationName( latitude, longitude);
+    }, (error) =>{
+      alert("Wether fetching will not work. Plase allow location")  
+    }
+)
 
 
 
