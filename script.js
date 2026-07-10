@@ -22,7 +22,7 @@ let getWether = async (city) => {
     }
 
 }
-// getWether("Allahabad");
+
 
 
 function showWether(data){
@@ -60,14 +60,6 @@ navigator.geolocation.getCurrentPosition(
       alert("Wether fetching will not work. Plase allow location")  
     }
 )
-
-
-
-
-
-
-
-
 
 const timeElem = document.querySelector("#time-dashboard");
 const weekName = document.querySelector("#weekName");
@@ -112,7 +104,7 @@ function dateTime() {
     dailyPlannerHeading.innerHTML = `${currnetWeekDay}, ${currentMonth} ${String(now.getDate()).padStart(2, "0")}`
 }
 dateTime();
-// setInterval(dateTime, 1000)
+
 
 document.querySelector("#mobile-todo-feature").addEventListener("click", e => {
 
@@ -134,7 +126,7 @@ document.querySelector("#toggle-form-1").addEventListener("click", () => {
 document.querySelector("#add-btn-fixed-nav").addEventListener("click", () => {
     if (window.innerWidth <= 1250) {
         formDiv1.classList.toggle("flex");
-        // formDiv1.elements[0].focus();
+        
     } else {
         form.elements[0].focus();
     }
